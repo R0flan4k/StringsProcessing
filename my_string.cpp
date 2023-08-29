@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "my_string.h"
 #include "my_assert.h"
@@ -63,12 +62,16 @@ char * my_strncpy(char * target, const char * source, const size_t target_length
 
 size_t my_puts(const char * string)
 {
+    MY_ASSERT(string != nullptr);
+
     return printf("%s\n", string) - 1;
 }
 
 
 char * my_strchr(char * string, int character)
 {
+    MY_ASSERT(string != nullptr);
+
     int i = 0;
     
     while (string[i] != '\0')
@@ -88,6 +91,8 @@ char * my_strchr(char * string, int character)
 
 char * my_strcat(char * target, const char * source)
 {
+    MY_ASSERT(target != nullptr && source != nullptr);
+
     int i = 0;
 
     while (target[i] != '\0')
@@ -110,6 +115,8 @@ char * my_strcat(char * target, const char * source)
 
 char * my_strncat(char * target, const char * source, const size_t string_length)
 {
+    MY_ASSERT(target != nullptr && source != nullptr);
+
     int i = 0;
 
     while (target[i] != '\0')
@@ -132,6 +139,8 @@ char * my_strncat(char * target, const char * source, const size_t string_length
 
 char * my_fgets(char * string, const int max_length, FILE * file)
 {
+    MY_ASSERT(file != nullptr && string != nullptr);
+
     int i = 0;
     int character = 0;
 
@@ -153,6 +162,8 @@ char * my_fgets(char * string, const int max_length, FILE * file)
 
 char * my_strdup(const char * source)
 {
+    MY_ASSERT(source != nullptr);
+
     char * target = (char *) calloc(my_strlen(source) + 1, sizeof(char));
     
     my_strcpy(target, source);
@@ -162,6 +173,8 @@ char * my_strdup(const char * source)
 
 size_t my_getline(char * string, size_t length, FILE * file)
 {
+    MY_ASSERT(file != nullptr && string != nullptr);
+
     char character = 0;
     size_t i = 0;
 
