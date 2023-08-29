@@ -51,5 +51,15 @@ int main(void)
     printf("length_getline_string = %d\n", length_getline_string);
     printf("getline_string - %s\n", getline_string);
 
+    printf("%d\n", my_strcmp("llolp", "llolo"));
+    printf("%d\n", my_strncmp("llol", "llolkek", 4));
+    printf("%d\n", my_strncmp("llolp", "llolo", 4));
+    printf("%d\n", my_strncmp("llolpdsa", "llolo", 5));
+
+    puts("");
+
+    const char * literal = "lolkekcheburek";
+    printf("%p and %p\n", strstr(literal, "kek"), &literal[3]);
+
     return 0;
 }

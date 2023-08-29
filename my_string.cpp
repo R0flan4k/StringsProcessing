@@ -188,3 +188,67 @@ size_t my_getline(char * string, size_t length, FILE * file)
 
     return i;
 }
+
+
+const char * strstr(const char * string1, const char * string2)
+{
+    int i = 0;
+    while (string1[i] != '\0')
+    {
+        if (my_strncmp(&string1[i], string2, my_strlen(string2)) == 0)
+        {
+            return &string1[i];
+        }
+
+        i++;
+    }
+
+    return NULL;
+}
+
+
+int my_strcmp(const char * string1, const char * string2)
+{
+    int i = 0;
+
+    while (string1[i] != '\0')
+    {
+        if      (string1[i] > string2[i])
+        {
+            return 1;
+        }   
+        else if (string1[i] < string2[i])
+        {
+            return -1;
+        }    
+        else
+            i++;
+    }
+
+    if (string2[i] == '\0')
+        return 0;
+    else 
+        return -1;
+}
+
+
+int my_strncmp(const char * string1, const char * string2, const size_t length)
+{
+    int i = 0;
+
+    while (string1[i] != '\0' && (size_t) i < length)
+    {
+        if      (string1[i] > string2[i])
+        {
+            return 1;
+        }   
+        else if (string1[i] < string2[i])
+        {
+            return -1;
+        }    
+        else
+            i++;
+    }
+
+    return 0;
+}
