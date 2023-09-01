@@ -171,44 +171,71 @@ char * my_strdup(const char * source)
     return target;
 }
 
-size_t my_getline(char * string, size_t length, FILE * file)
+ssize_t my_getline(char * * string, size_t * length, FILE * file)
 {
-    MY_ASSERT(file != nullptr && string != nullptr);
+    MY_ASSERT(file != nullptr && string != nullptr && length != nullptr);
 
-    char character = 0;
-    size_t i = 0;
+    int character = 0;
+    int i = 0;
 
-    while (i < length - 1 && (character = (char) fgetc(file)) != '\n' && character != EOF)
+    while ((character = fgetc(file)) != '\n' && character != EOF)
     {
-        string[i] = character;
+        if ((size_t) i >= *length)
+        {
+            MY_ASSERT((size_t) i == *length);
+
+            *length = (size_t) i + 1;
+            char * pointer = (char *) realloc(*string, *length);
+            *string = pointer;
+
+            printf("%s\n", *string);
+        }
+
+        MY_ASSERT((size_t) i <= *length);
+
+        (*string)[i] = (char) character;
         i++;
     }
 
-    string[i] = '\0';
+    *string[i] = '\0';
 
-    return i;
+    return (ssize_t) *length;
 }
 
 
-const char * strstr(const char * string1, const char * string2)
+const char * strstr(const char * string1, const char * string2) // ????????????????????? CNST
 {
-    int i = 0;
-    while (string1[i] != '\0')
-    {
-        if (my_strncmp(&string1[i], string2, my_strlen(string2)) == 0)
-        {
-            return &string1[i];
-        }
+    MY_ASSERT(string1 != nullptr && string2 != nullptr);
 
-        i++;
+    int i = 0;
+    size_t string1_length = my_strlen(string1);
+    size_t string2_length = my_strlen(string2);
+
+    if (string1_length >= string2_length)
+    {
+        while (string1[i + string2_length - 1] != '\0')
+        {
+            if (string1[i + string2_length - 1] == string2[string2_length - 1])
+            {
+                if (my_strncmp(&string1[i], string2, string2_length - 1) == 0)
+                {
+                    return &string1[i];
+                }
+            }
+
+            i++;
+        }
     }
 
-    return NULL;
+return NULL;
+
 }
 
 
 int my_strcmp(const char * string1, const char * string2)
 {
+    MY_ASSERT(string1 != nullptr && string2 != nullptr);
+
     int i = 0;
 
     while (string1[i] != '\0')
@@ -234,9 +261,11 @@ int my_strcmp(const char * string1, const char * string2)
 
 int my_strncmp(const char * string1, const char * string2, const size_t length)
 {
-    int i = 0;
+    MY_ASSERT(string1 != nullptr && string2 != nullptr);
 
-    while (string1[i] != '\0' && (size_t) i < length)
+    int i = 0;
+    
+    while (string2[i] != '\0' && (size_t) i < length)
     {
         if      (string1[i] > string2[i])
         {
@@ -247,7 +276,46 @@ int my_strncmp(const char * string1, const char * string2, const size_t length)
             return -1;
         }    
         else
+        {
             i++;
+        }
+    }
+
+    return 0;
+}
+
+
+char * fget_str(FILE * file, char * string)
+{
+    size_t i = 0;
+    int character = 0;
+
+    while ((character = fgetc(file)) != '\n' && character != EOF)
+    {
+        string[i] = (char) character;
+        i++;
+    }
+
+    return string;
+}
+
+
+int my_strncmp_index(const char * string1, const char * string2, const size_t length)
+{
+    MY_ASSERT(string1 != nullptr && string2 != nullptr);
+
+    int i = 0;
+    
+    while (string2[i] != '\0' && (size_t) i < length)
+    {
+        if (string1[i] != string2[i])
+        {
+            return i+1;
+        }
+        else
+        {
+            i++;
+        }
     }
 
     return 0;

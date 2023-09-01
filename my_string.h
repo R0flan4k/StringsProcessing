@@ -14,9 +14,11 @@
     char * my_strncat(char * target, const char * source, const size_t string_length);
     char * my_fgets(char * string, const int max_length, FILE * file);
     char * my_strdup(const char * source);
-    size_t my_getline(char * string, size_t length, FILE * file);
+    ssize_t my_getline(char * * string, size_t * length, FILE * file);
     const char * strstr(const char * string1, const char * string2);
     int my_strcmp(const char * string1, const char * string2);
     int my_strncmp(const char * string1, const char * string2, const size_t length);
+    char * fget_str(FILE * file, char * string);
+    int my_strncmp_index(const char * string1, const char * string2, const size_t length);
 
 #endif // MY_STRING_H
