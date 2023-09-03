@@ -72,11 +72,17 @@ int main(void)
     // size_t getline_len = MAX_LENGTH - 1;
 
     // printf("%s\n", pt);
-    // printf("%d\n", my_getline(ptpt, &getline_len, fp));
+    // printf("%d\n", my_getline(ptpt, &getline_len, stdin));
     // printf("%s\n", *ptpt);
     // free(*ptpt);
+    // printf("After my_getline() test\n");
 
     // fclose(fp);
+
+    // int x = 777;
+    // char* ptr = nullptr;
+    // ssize_t len = my_getline(&ptr, 0, stdin);
+    // free(ptr);
 
     return 0;
 }
