@@ -63,26 +63,33 @@ int main(void)
         
         printf("7) %p and %p\n", strstr("aaabc", "aabc"), "aaabc");
 
-    // FILE * fp = nullptr;
-    // MY_ASSERT((fp = fopen("string_file.txt", "r")) != NULL);
+    //------------------------------------------------------------------------------------------------------
 
-    // char getline_string[MAX_LENGTH] = "lol";
-    // char * pt = getline_string;
-    // char * * ptpt = &pt;
-    // size_t getline_len = MAX_LENGTH - 1;
+    FILE * fp = nullptr;
+    
+    if ((fp = fopen("string_file.txt", "r")) == NULL)
+    {
+        puts("File error.");
+        return 1;
+    }
 
-    // printf("%s\n", pt);
-    // printf("%d\n", my_getline(ptpt, &getline_len, stdin));
-    // printf("%s\n", *ptpt);
-    // free(*ptpt);
-    // printf("After my_getline() test\n");
+    char * pt = NULL;
+    size_t getline_length = 0;
 
-    // fclose(fp);
+    if (my_getline(&pt, &getline_length, fp) == NULL)
+    {
+        puts("Memory allocation error.");
+        
+        return 1;
+    }
 
-    // int x = 777;
-    // char* ptr = nullptr;
-    // ssize_t len = my_getline(&ptr, 0, stdin);
-    // free(ptr);
+    printf("%s\n", pt);
+    printf("%d\n", getline_length);
+    printf("After my_getline() test\n");
+    
+    free(pt);
+
+    fclose(fp);
 
     return 0;
 }

@@ -162,7 +162,11 @@ char * my_strdup(const char * source)
 {
     MY_ASSERT(source != nullptr);
 
-    char * target = (char *) calloc(my_strlen(source) + 1, sizeof(char));
+    char * target = nullptr;
+    if ((target = (char *) calloc(my_strlen(source) + 1, sizeof(char))) == NULL)
+    {
+        return NULL;
+    }
     
     my_strcpy(target, source);
 
@@ -178,22 +182,18 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
 
     while ((character = fgetc(file)) != '\n' && character != EOF)
     {
-            printf("current str: %s\n", *string);
-            printf("current len: %zu\n", *length);
-
         if (i >= *length)
         {
             MY_ASSERT(i == *length);
 
             *length = i + 1;
-            char * pointer = (char *) realloc(*string, *length);
-
-            MY_ASSERT(pointer != nullptr);
+            char * pointer = nullptr; 
+            if ((pointer = (char *) realloc(*string, *length)) == NULL)
+            {
+                return NULL;
+            }
 
             *string = pointer;
-
-            printf("current str: %s\n", *string);
-            printf("current len: %zu\n", *length);
         }
 
         MY_ASSERT(i <= *length);
@@ -208,7 +208,7 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
 }
 
 
-char * strstr(const char * string1, const char * string2) // ????????????????????? CNST
+char * strstr(const char * string1, const char * string2)
 {
     MY_ASSERT(string1 != nullptr && string2 != nullptr);
 
