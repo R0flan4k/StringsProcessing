@@ -63,6 +63,8 @@ int main(void)
         
         printf("7) %p and %p\n", strstr("aaabc", "aabc"), "aaabc");
 
+        printf("8) %p and %p\n", strstr("aaakaaab", "aaab"), "aaakaaab");
+
     //------------------------------------------------------------------------------------------------------
 
     FILE * fp = nullptr;

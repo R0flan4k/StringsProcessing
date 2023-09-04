@@ -300,17 +300,7 @@ IsLetters * get_string_letters(const char * string, const size_t string_length, 
 
 bool is_in_string (const char character, const IsLetters * string_letters)
 {
-    size_t i = 0;
-
-    while (i < ALPHABET_SIZE)
-    {
-        if (character == string_letters[i].letter && string_letters[i].is_in_string == true)
-            return true;
-
-        i++;
-    }
-
-    return false;
+    return string_letters[(int) character - 'a'].is_in_string;
 }
 
 
