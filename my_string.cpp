@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 #include "my_string.h"
 #include "my_assert.h"
@@ -66,7 +67,7 @@ size_t my_puts(const char * string)
 }
 
 
-char * my_strchr(char * string, int character)
+char * my_strchr(const char * string, int character)
 {
     MY_ASSERT(string != nullptr);
 
@@ -75,13 +76,13 @@ char * my_strchr(char * string, int character)
     while (string[i] != '\0')
     {
         if (string[i] == character)
-            return &string[i];
+            return const_cast <char *> (&string[i]);
         
         i++;
     }
 
     if (character == '\0')
-        return &string[i];
+        return const_cast <char *> (&string[i]);
 
     return NULL;
 }
@@ -208,34 +209,52 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
 }
 
 
-char * strstr(const char * string1, const char * string2)
+char * my_strstr(const char * string1, const char * string2)
 {
     MY_ASSERT(string1 != nullptr && string2 != nullptr);
 
     size_t i = 0;
     size_t string1_length = my_strlen(string1);
-    size_t string2_length = my_strlen(string2);
-    IsLetters string2_letters[ALPHABET_SIZE] = {};
-    int index = 0;
+    size_t string2_length = 0;
+    bool string2_letters[ALPHABET_SIZE] = {};
+    int character_number = 0;
 
-    get_string_letters(string2, string2_length, string2_letters);
+    while (string2[string2_length] != '\0')
+    {
+        string2_length++;
+
+        string2_letters[(size_t) string2[i] - 'a'] = true;
+    }
 
     if (string1_length >= string2_length)
     {
-        while (string1[i + string2_length - 1] != '\0')
+        while (i < string1_length - string2_length + 1)
         {
-            if ((index = my_strncmp_index(&string1[i], string2, string2_length)) == 0)
+            for (size_t j = 0; j < string2_length; j++)
             {
-                return (char *) &string1[i];
+                if (string1[i + j] != string2[j])
+                {
+                    character_number = j + 1;
+
+                    break;
+                }
+            
+                character_number = 0;    
             }
-            else if (is_in_string(string1[i + index - 1], string2_letters))
+
+            if (character_number == 0)
             {
-                while (string1[i + index] != string2[index - 1] && string1[i + string2_length - 1] != '\0')
+                return const_cast<char *> (&string1[i]);
+            }
+            else if (is_in_string(string1[i + character_number - 1], string2_letters))
+            {
+                while (string1[i + character_number] != string2[character_number - 1] && i < string1_length - string2_length + 1)
                     i++;
             }
             else
             {
-                i += index - 1;
+                i += character_number;
+                continue;
             }
 
             i++;
@@ -243,64 +262,12 @@ char * strstr(const char * string1, const char * string2)
     }
 
     return NULL;
-
 }
 
 
-IsLetters * get_string_letters(const char * string, const size_t string_length, IsLetters * letters)
+bool is_in_string (const char character, const bool * string_letters)
 {
-    size_t i = 0;
-    IsLetters alphabet_letters[ALPHABET_SIZE] = {{'a', false},
-                                                 {'b', false},
-                                                 {'c', false},
-                                                 {'d', false},
-                                                 {'e', false},
-                                                 {'f', false},
-                                                 {'g', false},
-                                                 {'h', false},
-                                                 {'i', false},
-                                                 {'j', false},
-                                                 {'k', false},
-                                                 {'l', false},
-                                                 {'m', false},
-                                                 {'n', false},
-                                                 {'o', false},
-                                                 {'p', false},
-                                                 {'q', false},
-                                                 {'r', false},
-                                                 {'s', false},
-                                                 {'t', false},
-                                                 {'u', false},
-                                                 {'v', false},
-                                                 {'w', false},
-                                                 {'x', false},
-                                                 {'y', false},
-                                                 {'z', false}};
-
-    for (size_t j = 0; j < ALPHABET_SIZE; j++)
-    {
-        letters[j].letter = alphabet_letters[j].letter;
-        letters[j].is_in_string = alphabet_letters[j].is_in_string;
-    }
-
-    while (i < string_length)
-    {
-        for (size_t j = 0; j < ALPHABET_SIZE; j++)
-        {
-            if (string[i] == letters[j].letter)
-                letters[j].is_in_string = true;
-        }
-
-        i++;
-    }
-
-    return letters;
-}
-
-
-bool is_in_string (const char character, const IsLetters * string_letters)
-{
-    return string_letters[(int) character - 'a'].is_in_string;
+    return string_letters[(size_t) tolower(character) - 'a'];
 }
 
 
@@ -369,26 +336,4 @@ char * fget_str(FILE * file, char * string)
     }
 
     return string;
-}
-
-
-int my_strncmp_index(const char * string1, const char * string2, const size_t length)
-{
-    MY_ASSERT(string1 != nullptr && string2 != nullptr);
-
-    size_t i = 0;
-    
-    while (string2[i] != '\0' && i < length)
-    {
-        if (string1[i] != string2[i])
-        {
-            return i+1;
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-    return 0;
 }

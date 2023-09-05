@@ -2,6 +2,7 @@
 
 #include "my_string.h"
 #include "my_assert.h"
+#include "input-output.h"
 
 
 int main(void)
@@ -47,23 +48,89 @@ int main(void)
     // puts("");
 
     // const char * pt = nullptr;
+    char * arrow = NULL;
     const char * literal = "lolkekcheburek";
 
-        printf("1) %p and %p\n", strstr(literal, "kek"), &literal[3]);
+        printf("1) %p and %p\n", arrow = my_strstr(literal, "kek"), &literal[3]);
 
-        printf("2) %p and %p\n", strstr("Amogus", "Amigos"), literal);
+        if (arrow == &literal[3])
+            puts(COLOR_GREEN "1 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "1 test failed." COLOR_DEFAULT);
+
+
+        printf("2) %p and %p\n", arrow = my_strstr("Amogus", "Amigos"), literal);
+
+        if (arrow == NULL)
+            puts(COLOR_GREEN "2 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "2 test failed." COLOR_DEFAULT);
+
         
-        printf("3) %p and %p\n", strstr("Amogus", "gusi"), "Amogus");
+        printf("3) %p and %p\n", arrow = my_strstr("Amogus", "gusi"), "Amogus");
 
-        printf("4) %p and %p\n", strstr("Amogusic", "gusi"), "Amogusic");
+        if (arrow == NULL)
+            puts(COLOR_GREEN "3 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "3 test failed." COLOR_DEFAULT);
 
-        printf("5) %p and %p\n", strstr("Bebra", "Abebraka"), "Bebra");
 
-        printf("6) %p and %p\n", strstr("lebedi", "gusi"), "lebedi");
+        printf("4) %p and %p\n", arrow = my_strstr("Amogusic", "gusi"), "Amogusic");
+
+        if (arrow == "Amogusic" + 3)
+            puts(COLOR_GREEN "4 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "4 test failed." COLOR_DEFAULT);
+
+
+        printf("5) %p and %p\n", arrow = my_strstr("Bebra", "Abebraka"), "Bebra");
+
+        if (arrow == NULL)
+            puts(COLOR_GREEN "5 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "5 test failed." COLOR_DEFAULT);
+
+
+        printf("6) %p and %p\n", arrow = my_strstr("lebedi", "gusi"), "lebedi");
+
+        if (arrow == NULL)
+            puts(COLOR_GREEN "6 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "6 test failed." COLOR_DEFAULT);
+
         
-        printf("7) %p and %p\n", strstr("aaabc", "aabc"), "aaabc");
+        printf("7) %p and %p\n", arrow = my_strstr("aaabc", "aabc"), "aaabc");
 
-        printf("8) %p and %p\n", strstr("aaakaaab", "aaab"), "aaakaaab");
+        if (arrow == "aaabc" + 1)
+            puts(COLOR_GREEN "7 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "7 test failed." COLOR_DEFAULT);
+
+
+        printf("8) %p and %p\n", arrow = my_strstr("aaakaaab", "aaab"), "aaakaaab");
+
+        if (arrow == "aaakaaab" + 4)
+            puts(COLOR_GREEN "8 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "8 test failed." COLOR_DEFAULT);
+
+
+        printf("9) %p and %p\n", arrow = my_strstr("l", "lol"), "l");
+
+        if (arrow == NULL)
+            puts(COLOR_GREEN "9 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "9 test failed." COLOR_DEFAULT);
+
+        
+        printf("10) %p and %p\n", arrow = my_strstr("kek", "kek"), "kek");
+
+        if (arrow == "kek" + 0)
+            puts(COLOR_GREEN "10 test passed." COLOR_DEFAULT);
+        else
+            puts(COLOR_RED   "10 test failed." COLOR_DEFAULT);
+
+        puts("\n\n");
 
     //------------------------------------------------------------------------------------------------------
 
@@ -71,7 +138,7 @@ int main(void)
     
     if ((fp = fopen("string_file.txt", "r")) == NULL)
     {
-        puts("File error.");
+        puts(COLOR_RED "File error." COLOR_DEFAULT);
         return 1;
     }
 
