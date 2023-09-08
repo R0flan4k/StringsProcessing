@@ -20,6 +20,6 @@
     int my_strcmp(const char * string1, const char * string2);
     int my_strncmp(const char * string1, const char * string2, const size_t length);
     char * fget_str(FILE * file, char * string);
-    bool is_in_string (const char character, const bool * string_letters);
+    bool is_in_string (const char character, const int * string_letters);
 
 #endif // MY_STRING_H

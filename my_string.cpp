@@ -185,9 +185,7 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
     {
         if (i >= *length)
         {
-            MY_ASSERT(i == *length);
-
-            *length = i + 1;
+            *length = (size_t)((i + 1) * 1.5);
             char * pointer = nullptr; 
             if ((pointer = (char *) realloc(*string, *length)) == NULL)
             {
@@ -205,7 +203,7 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
 
     (*string)[i] = '\0';
 
-    return (ssize_t) *length;
+    return (ssize_t) i;
 }
 
 
@@ -216,56 +214,60 @@ char * my_strstr(const char * string1, const char * string2)
     size_t i = 0;
     size_t string1_length = my_strlen(string1);
     size_t string2_length = 0;
-    bool string2_letters[ALPHABET_SIZE] = {};
+    int string2_letters[ALPHABET_SIZE] = {};
     int character_number = 0;
 
     while (string2[string2_length] != '\0')
     {
+        string2_letters[(size_t) string2[i] - 'a'] = string2_length;
+
         string2_length++;
-
-        string2_letters[(size_t) string2[i] - 'a'] = true;
     }
 
-    if (string1_length >= string2_length)
+    if (string1_length < string2_length)
     {
-        while (i < string1_length - string2_length + 1)
-        {
-            for (size_t j = 0; j < string2_length; j++)
-            {
-                if (string1[i + j] != string2[j])
-                {
-                    character_number = j + 1;
-
-                    break;
-                }
-            
-                character_number = 0;    
-            }
-
-            if (character_number == 0)
-            {
-                return const_cast<char *> (&string1[i]);
-            }
-            else if (is_in_string(string1[i + character_number - 1], string2_letters))
-            {
-                while (string1[i + character_number] != string2[character_number - 1] && i < string1_length - string2_length + 1)
-                    i++;
-            }
-            else
-            {
-                i += character_number;
-                continue;
-            }
-
-            i++;
-        }
+        return NULL;
     }
+
+    while (i < string1_length - string2_length + 1)
+    {
+        for (size_t j = 0; j < string2_length; j++)
+        {
+            if (string1[i + j] != string2[j])
+            {
+                character_number = j + 1;
+
+                break;
+            }
+        
+            character_number = 0;    
+        }
+
+        if (character_number == 0)
+        {
+            return const_cast<char *> (&string1[i]);
+        }
+        else if (is_in_string(string1[i + character_number - 1], string2_letters))
+        {
+            i += string2_length - string2_letters[(size_t) string1[i + character_number - 1] - 'a'];
+            continue;
+        }
+        else
+        {
+            i += character_number;
+            continue;
+        }
+
+        i++;
+    }
+    
+    // MY_ASSERT(0 && "UNREACHABLE"); --> Нет выхода, если строки не совпали
 
     return NULL;
 }
 
 
-bool is_in_string (const char character, const bool * string_letters)
+bool is_in_string (const char character, const int * string_letters)
 {
     return string_letters[(size_t) tolower(character) - 'a'];
 }
