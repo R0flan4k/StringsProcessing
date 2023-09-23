@@ -30,5 +30,10 @@ git clone https://github.com/R0flan4k/StringsProcessing.git
 
 Second step:
 ~~~
+cd StringProcessing
+~~~
+
+Third step:
+~~~
 make
 ~~~
