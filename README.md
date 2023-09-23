@@ -1,5 +1,5 @@
 # StringsProcessing
-![Strings\0Strings\0Strings\0](images/StringsProcessing.png)
+![Strings\0Strings\0Strings\0](Images/StringsProcessing.png)
 
 ## Program Purpose
 
