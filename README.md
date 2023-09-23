@@ -17,7 +17,7 @@ This program supports my version of the following functions:
 - my_strdup()
 - my_getline()
 - my_strstr()
-- -my_strcmp() and my_strncmp()
+- my_strcmp() and my_strncmp()
 
 ## Installation:
 
