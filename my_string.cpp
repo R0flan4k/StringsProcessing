@@ -24,7 +24,7 @@ size_t my_strlen(const char * string)
 char * my_strcpy(char * target, const char * source)
 {
     MY_ASSERT(target != nullptr && source != nullptr);
-    
+
     int i = 0;
 
     while (source [i] != '\0')
@@ -52,7 +52,7 @@ char * my_strncpy(char * target, const char * source, const size_t target_length
         target[i] = source [i];
         i++;
     }
-    
+
     target[i] = '\0';
 
     return target;
@@ -72,12 +72,12 @@ char * my_strchr(const char * string, int character)
     MY_ASSERT(string != nullptr);
 
     int i = 0;
-    
+
     while (string[i] != '\0')
     {
         if (string[i] == character)
             return const_cast <char *> (&string[i]);
-        
+
         i++;
     }
 
@@ -154,7 +154,7 @@ char * my_fgets(char * string, const int max_length, FILE * file)
 
     if (character == EOF)
         return NULL;
-    else 
+    else
         return string;
 }
 
@@ -168,7 +168,7 @@ char * my_strdup(const char * source)
     {
         return NULL;
     }
-    
+
     my_strcpy(target, source);
 
     return target;
@@ -186,7 +186,7 @@ ssize_t my_getline(char * * string, size_t * length, FILE * file)
         if (i >= *length)
         {
             *length = (size_t)((i + 1) * 1.5);
-            char * pointer = nullptr; 
+            char * pointer = nullptr;
             if ((pointer = (char *) realloc(*string, *length)) == NULL)
             {
                 return NULL;
@@ -239,8 +239,8 @@ char * my_strstr(const char * string1, const char * string2)
 
                 break;
             }
-        
-            character_number = 0;    
+
+            character_number = 0;
         }
 
         if (character_number == 0)
@@ -260,7 +260,7 @@ char * my_strstr(const char * string1, const char * string2)
 
         i++;
     }
-    
+
     // MY_ASSERT(0 && "UNREACHABLE"); --> Нет выхода, если строки не совпали
 
     return NULL;
@@ -284,18 +284,18 @@ int my_strcmp(const char * string1, const char * string2)
         if      (string1[i] > string2[i])
         {
             return 1;
-        }   
+        }
         else if (string1[i] < string2[i])
         {
             return -1;
-        }    
+        }
         else
             i++;
     }
 
     if (string2[i] == '\0')
         return 0;
-    else 
+    else
         return -1;
 }
 
@@ -305,17 +305,17 @@ int my_strncmp(const char * string1, const char * string2, const size_t length)
     MY_ASSERT(string1 != nullptr && string2 != nullptr);
 
     size_t i = 0;
-    
+
     while (string2[i] != '\0' && i < length)
     {
         if      (string1[i] > string2[i])
         {
             return 1;
-        }   
+        }
         else if (string1[i] < string2[i])
         {
             return -1;
-        }    
+        }
         else
         {
             i++;

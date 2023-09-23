@@ -15,4 +15,4 @@ my_assert.o: my_assert.cpp
 	$(CC) -c my_assert.cpp $(FLAGS) -o my_assert.o
 
 clean:
-	rm -f *.o *~ core *~
+	rm -f *.o *~ core *~ *.exe
